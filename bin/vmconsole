@@ -1,0 +1,7 @@
+#!/bin/sh
+# Launch a browser window into the Hercules console`
+#
+HOST=localhost
+PORT=8081
+URL=http://$HOST:$PORT/
+xdg-open $URL

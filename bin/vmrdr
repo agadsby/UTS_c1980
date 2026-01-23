@@ -1,0 +1,45 @@
+#!/usr/bin/bash
+# simple script to send stuff to VM user via the reader
+# optionally include UTS routing information as per man 3 vmread
+VMUSER="UTS" ; RLINE="" ; PORT=3505 ; HOST=localhost
+ERR=0
+while getopts "v:r:p:h:" arg; do
+	case $arg in
+	v)	VMUSER=${OPTARG}
+		;;
+	r)	RLINE=${OPTARG}
+		;;
+	p)	PORT=${OPTARG}
+		;;
+	h)	HOST=${OPTARG}
+		;;
+	*)	echo "Usage: $0 [-v VMUSERID] [-r route_line] [-p port] [-h host] files..."  1>&2
+		exit 1
+		;;
+	esac
+done
+shift $(($OPTIND - 1))
+if [ $# -eq 0 ] ; then
+	echo "$0: sending STDIN to VM Reader $HOST:$PORT"
+	(
+		echo "USERID $VMUSER"
+		if [ ! -z "$RLINE" ] ; then	echo $RLINE; fi
+		cat
+	) | nc $HOST $PORT
+	if [ $? -ne 0 ] ; then ERR=1; fi	
+fi
+for f in $@ ; do
+	if [ ! -f $f -o ! -r $f ] ; then 
+		echo "$0: $f not readable - skipped" 1>&2
+		ERR=1
+	else
+		echo "$0: sending $f to VM Reader $HOST:$PORT"
+		(
+			echo "USERID $VMUSER"
+			if [ ! -z "$RLINE" ] ; then	echo $RLINE; fi
+			cat $f
+		) | nc $HOST $PORT
+		if [ $? -ne 0 ] ; then ERR=1; fi
+	fi
+done
+exit $ERR

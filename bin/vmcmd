@@ -1,0 +1,21 @@
+#!/bin/sh
+# curl  --data-urlencode  "command=devinit 0481 fred2" \
+#       --data-urlencode "send=send" http://localhost:8081/cgi-bin/tasks/syslog
+
+# send command to VM on given port
+# NOTE: No error checking / security - we fire and forget
+PORT=8081
+HOST="localhost"
+CONSOLE="/cgi-bin/tasks/syslog"
+CMD=$@
+status=`curl --data-urlencode "command=$CMD" --data-urlencode "send=send" \
+        -o /dev/null -s -w '%{http_code}\n' http://$HOST:$PORT$CONSOLE`
+if [ "$status" -ne "200" ]; then
+	if [ "$status" -eq "000" ]; then
+		echo "$0: No connection to host" >&2
+	else
+		echo "$0: Command error - status $status" >&2
+	fi
+	exit 1
+fi
+exit 0
