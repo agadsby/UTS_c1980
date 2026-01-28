@@ -17,9 +17,9 @@ sleep 1
 echo "Loading UTS installation tape on 0480"
 vmcmd devinit 0480 tapes/Amdahl_UTS2.aws
 sleep 1
-echo "Using a 3270 window\
-LOGIN MAINT CPCMS\
-READCARD ADDUTS EXEC \
+echo "Using a 3270 window\n
+LOGIN MAINT CPCMS\n
+READCARD ADDUTS EXEC \n
 ADDUTS"
 echo "Once succesfully run use another 3270 window to DIAL UTS"
 echo "login using root / root"
