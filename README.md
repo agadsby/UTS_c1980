@@ -41,17 +41,18 @@ Connect to VM370 using a 3270 emulator - by default the commands above will star
 Hit **Enter** to clear the VM370 splash screen and login using
 cp	 **LOGON MAINT** password **CPCMS**
 A few useful commands:
-
-* DIR  # directory list for current Minidisk (A)
-* DIR \* \* B # directory list for Minidisk B
-* TYPE USER DIRECT # display contents of file USER DIRECT
-* Q RDR # show any files in your virtual reader
-* Q DASD FREE # show unallocated disk packs
+| Command | Notes|
+|:---------------|:-----|
+| DIR  |directory list for current Minidisk (A)|
+| DIR \* \* B | directory list for Minidisk B|
+| TYPE USER DIRECT | display contents of file USER DIRECT|
+| Q RDR | show any files in your virtual reader|
+| Q DASD FREE | show unallocated disk packs|
 
 At some point you will  get a
 **MORE...** message on the bottom right of the window - show the next screen  using the  **Clear** key. If you simply hit **Enter** the display will change to **HOLDING**,	move on using **Clear**.
 
-To interrupt the output, or la long running command, enter the **PA2** key - this will drop you back to the CMS command prompt. If you accidentally enter **PA1** this will "kill" CMS and you will get **CP READ** displayed. At this point you can either **LOGOFF** or reIPL CMS by entering **IPL CMS**.
+To interrupt the output, or a long running command, enter the **PA2** key - this will drop you back to the CMS command prompt. If you accidentally enter **PA1** this will "kill" CMS and you will get **CP READ** displayed. At this point you can either **LOGOFF** or reIPL CMS by entering **IPL CMS**.
 
 After you have explored things you can shutdown VM370 by entering **SHUTDOWN** from the MAINT login userid OR by entering **/shutdown** at the Hercules system console **===>** prompt.
 
@@ -69,10 +70,10 @@ Edit your previously downloaded VM370 configuration file **vm370ce.conf** and ad
 0150     3330    disks-uts/uts.150
 0151     3330    disks-uts/uts.151
 ```
-Now restart Hercules and these new disks will be attached to the VM370 configuration.
+Restart Hercules and these  disks will be attached to the VM370 configuration.
 If you login as MAINT/CPCMS you should see them listed if you do a **Q DASD FREE**.
 
-Now create a card deck (text file containing the following CMS EXEC script that performs the installation of UTS from the tape:
+Create a card deck, a text file containing the following CMS EXEC script that performs the installation of UTS from the tape, on your LINUX/Windows system, say **adduts_exec.cards**:
 ```
 USERID MAINT
 &CONTROL ERROR
@@ -192,7 +193,7 @@ A few useful commands - remember this is an early V7 UNIX so things are basic...
 |ls 	| no columns available
 |ps -al |
 |man man |man uses uses the 3270 **ned** editor - PF3 to Quit, PF7 forward  screen PF8 back screen
-|/etc/cpcmd start all| issue command to VM370 to start printers etc.
+|/etc/cpcmd start all| Issue command to VM370 to start printers etc.
 |opr -c A /usr/src/doc/out/beg	| Print the beginners guide NOTE: the printout will appear in the **VM370/io/** directory as one of the print listing files.|
 |logoff||
 |/etc/shutdown 0|Immediate (clean) shutdown|
